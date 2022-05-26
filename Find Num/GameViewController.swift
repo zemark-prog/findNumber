@@ -12,6 +12,8 @@ class GameViewController: UIViewController {
     @IBOutlet weak var nextDigit: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var timerLabel: UILabel!
+    @IBOutlet weak var newGameButton: UIButton!
+    
     
     lazy var game = Game(countItems: Buttons.count, timeforGame: 30) { [weak self] (status, seconds) in
         guard let self = self else {return}
@@ -29,6 +31,12 @@ class GameViewController: UIViewController {
 
     }
     
+    @IBAction func newGame(_ sender: UIButton) {
+        game.newGame()
+        sender.isHidden = true
+        setupScreen()
+        
+    }
     @IBAction func pressButton(_ sender: UIButton) {
         guard let buttonIndex = Buttons.firstIndex(of: sender) else {return}
         game.check(index: buttonIndex)
@@ -67,12 +75,15 @@ class GameViewController: UIViewController {
         case .start:
             statusLabel.text = "Game has started"
             statusLabel.textColor = .black
+            newGameButton.isHidden = true
         case .win:
             statusLabel.text = "You won"
             statusLabel.textColor = .green
+            newGameButton.isHidden = false
         case .loose:
             statusLabel.text = "You lost"
             statusLabel.textColor = .red
+            newGameButton.isHidden = false
         }
     }
 }
