@@ -17,6 +17,7 @@ class Game {
     struct Item {
         var title: String
         var isFound: Bool = false
+        var isError = false
     }
     
     
@@ -70,11 +71,14 @@ class Game {
     }
     
     func check(index: Int){
+        guard statusGame == .start else {return}
         if items[index].title == nextItem?.title{
             items[index].isFound = true
             nextItem = items.shuffled().first(where: {(item) -> Bool in
                 item.isFound == false
             })
+        } else {
+            items[index].isError = true
         }
         if nextItem == nil {
             statusGame = .win
@@ -87,4 +91,11 @@ class Game {
 }
 
 
-
+extension Int{
+    func secondsToString () -> String {
+        let minutes = self / 60
+        let seconds = self % 60
+        
+        return String(format: "%d:%02d", minutes, seconds)
+    }
+}
