@@ -48,14 +48,17 @@ class GameViewController: UIViewController {
     private func setupScreen() {
         for index in game.items.indices {
             Buttons[index].setTitle(game.items[index].title, for: .normal)
-            Buttons[index].isHidden = false
+            Buttons[index].alpha = 1
+            Buttons[index].isEnabled = true
         }
         nextDigit.text = game.nextItem?.title
     }
     
     private func updateUI() {
         for index in game.items.indices {
-            Buttons[index].isHidden = game.items[index].isFound
+            //Buttons[index].isHidden = game.items[index].isFound
+            Buttons[index].alpha = game.items[index].isFound ? 0 : 1
+            Buttons[index].isEnabled = !game.items[index].isFound
             if game.items[index].isError {
                 UIView.animate(withDuration: 0.3) { [weak self] in
                     self?.Buttons[index].backgroundColor = .red
